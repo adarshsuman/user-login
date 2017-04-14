@@ -2,7 +2,10 @@ extends layout
 
 block content
  h2.page-header Register
- p Please register using the form below
+ h1 Please register
+ if errors
+  each error, i in errors
+   div.alert.alert-danger #{error.msg}
  form(method='post', action='/users/register',enctype='multipart/form-data')
   .form-group
    label Name
@@ -22,4 +25,5 @@ block content
   .form-group
    label Profile Image
    input.form-control(name='profileimage', type='file')
+   br
   input.btn.btn-primary(type='submit', name='submit',value='Register')
