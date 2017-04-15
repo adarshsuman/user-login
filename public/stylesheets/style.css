@@ -9,6 +9,7 @@ background-repeat: no-repeat;
 background-position: 10px center;
 color: #4F8A10;
 background-color: #DFF2BF;
+list-style: none;
 }
 
 ul.error li{
@@ -19,4 +20,5 @@ background-repeat: no-repeat;
 background-position: 10px center;
 color: #D8000C;
 background-color: #FFBABA;
+list-style: none;
 }
