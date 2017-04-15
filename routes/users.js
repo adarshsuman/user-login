@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var uploads = multer({dest: './uploads'});
+var user = require('../models/users');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -46,10 +47,25 @@ res.render('register',{
   errors: errors
 });
 }
+//adding users to database
 else{
-    console.log('no errors');
-
-
+    var newUser = new user({
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      profileimage: profileimage
+    });
+    user.createUser(newUser, function(err, user){
+      if(err) throw err;
+      else{
+        console.log(user);
+      }
+    });
+    //content-flash for displaying messages
+    req.flash('success' , 'Registration Successfull');
+    res.location('/');
+    res.redirect('/');
 }
 });
 

@@ -13,6 +13,8 @@ var uploads = multer({dest: './uploads'});
 var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var config = require('./config');
+mongoose.connect(config.getConnection());
 var db =  mongoose.connection;
 var port = process.env.PORT || 3000;
 
