@@ -13,17 +13,20 @@ html(lang='en')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') NodeAuth
+          a.navbar-brand(href='#') MyApp
         .navbar-collapse.collapse
           ul.nav.navbar-nav
+           if user
             li(class=(title == 'Members' ? 'active' : ''))
               a(href='/') Members
+           if !user
             li(class=(title == 'Register' ? 'active' : ''))
               a(href='/users/register') Register
             li(class=(title == 'Login' ? 'active' : ''))
               a(href='/users/login') Login
           ul.nav.navbar-nav.navbar-right
-           li
+           if user
+            li
               a(href='/users/logout') Logout
     .container
      != messages()

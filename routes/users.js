@@ -18,39 +18,37 @@ router.get('/login', function (req, res, next) {
   res.render('login', { title: 'Login' });
 });
 router.post('/login',
-   passport.authenticate('local', { successRedirect: '/',
-                                   successFlash: 'LogIn Successfull',
-                                   failureRedirect: '/users/login',
-                                   failureFlash: 'Invalid Username or Password' })
-  /*function (req, res) {
-    req.flash('success' , 'LogIn Successfull');
-    res.redirect('/');
-
-  }*/);
-passport.serializeUser(function(user, done) {
+  passport.authenticate('local', {
+    successRedirect: '/',
+    successFlash: 'LogIn Successfull',
+    failureRedirect: '/users/login',
+    failureFlash: 'Invalid Username or Password'
+  })
+);
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.getUserById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.getUserById(id, function (err, user) {
     done(err, user);
   });
 });
 passport.use(new LocalStrategy(
-  function(username, password, done) {
+  function (username, password, done) {
     User.getUserByUsername(username, function (err, user) {
       if (err) throw err;
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      User.comparePassword(password, user.password, function(err, isMatch){
-      if(err) return done(err);
-      if(isMatch){
-        return done(null, user);
-      } else {
-        return done(null, false, {message:'Invalid Password'});
-      }
-    });
+      User.comparePassword(password, user.password, function (err, isMatch) {
+        if (err) return done(err);
+        if (isMatch) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: 'Invalid Password' });
+        }
+      });
     });
   }
 ));
@@ -106,6 +104,11 @@ router.post('/register', uploads.single('profileimage'), function (req, res, nex
     res.location('/');
     res.redirect('/');
   }
+});
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success' , 'Logout Successfull');
+  res.redirect('/users/login')
 });
 
 module.exports = router;
